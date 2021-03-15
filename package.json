@@ -2,14 +2,26 @@
   "name": "taxis",
   "version": "0.0.1",
   "description": "T:axis",
-  "main": "index.js",
+  "main": "lib/taxis.js",
+  "module": "lib/taxis.esm.js",
+  "unpkg": "lib/taxis.js",
+  "types": "lib/taxis.d.ts",
   "dependencies": {},
   "devDependencies": {
-    "esbuild": "^0.8.54"
+    "esbuild": "^0.8.54",
+    "prettier": "^2.2.1",
+    "typescript": "^4.2.3"
   },
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --minify --sourcemap --outfile=index.js --format=esm"
+    "build": "npm run build:esm && npm run build:iife",
+    "build:esm": "esbuild src/taxis.ts --bundle --minify --sourcemap --outfile=lib/taxis.esm.js --format=esm",
+    "build:iife": "esbuild src/taxis.ts --bundle --minify --sourcemap --outfile=lib/taxis.js --format=iife",
+    "dev": "esbuild src/taxis.ts --bundle --minify --sourcemap --outfile=lib/taxis.esm.js --format=esm --watch",
+    "types": "tsc -d --emitDeclarationOnly"
   },
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/t4y3/taxis.git"
