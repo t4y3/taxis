@@ -1,6 +1,6 @@
 {
   "name": "taxis",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "T:axis",
   "main": "lib/taxis.js",
   "module": "lib/taxis.esm.js",
