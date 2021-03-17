@@ -14,8 +14,13 @@ type Axis = {
 
 type Axes = Map<string, Axis>;
 
+type TimelineOption = {
+  container: HTMLElement;
+  debug: boolean;
+}
+
 type Option = {
-  timeline?: HTMLElement;
+  timeline?: TimelineOption;
 };
 
 const initialAxis: Axis = {
@@ -120,8 +125,8 @@ export class Taxis {
   begin() {
     // TODO: delete
     if (this.option.timeline) {
-      this.timeline = new TaxisTimeline(this.axes, this.totalTimeForTimeline);
-      this.option.timeline.appendChild(this.timeline);
+      this.timeline = new TaxisTimeline(this.axes, this.totalTimeForTimeline, this.option.timeline.debug);
+      this.option.timeline.container.appendChild(this.timeline);
     }
 
     this.beginAt = Date.now();
@@ -155,6 +160,7 @@ export class Taxis {
 
     this.beginAt = beginAt;
 
+    // TODO: totalTimeを超えたらここの処理はする必要がない
     this.axes.forEach((item, i) => {
       const tick = elapsedTime - item.beginAt;
       const progress = Math.max(0, Math.min(tick / item.duration, 1));

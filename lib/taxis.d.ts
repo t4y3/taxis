@@ -10,8 +10,12 @@ declare type Axis = {
     pass: boolean;
 };
 declare type Axes = Map<string, Axis>;
+declare type TimelineOption = {
+    container: HTMLElement;
+    debug: boolean;
+};
 declare type Option = {
-    timeline?: HTMLElement;
+    timeline?: TimelineOption;
 };
 export declare class Taxis {
     private readonly option;

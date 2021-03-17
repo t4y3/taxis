@@ -1,5 +1,7 @@
 export declare class TaxisTimeline extends HTMLElement {
     axes: any;
+    totalTime: number;
+    debug: boolean;
     $pane: HTMLElement;
     $timeline: HTMLElement;
     $current: HTMLInputElement;
@@ -15,9 +17,8 @@ export declare class TaxisTimeline extends HTMLElement {
     previous: Boolean;
     next: Boolean;
     skip: number;
-    totalTime: number;
     private editing;
-    constructor(axes: any, totalTime: any);
+    constructor(axes: any, totalTime: any, debug?: boolean);
     attributeChangedCallback(): void;
     connectedCallback(): void;
     disconnectedCallback(): void;

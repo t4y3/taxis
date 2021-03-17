@@ -1,6 +1,9 @@
 export class TaxisTimeline extends HTMLElement {
   // TODO
   axes: any;
+  totalTime: number;
+  debug: boolean;
+
   $pane: HTMLElement;
   $timeline: HTMLElement;
   $current: HTMLInputElement;
@@ -16,16 +19,17 @@ export class TaxisTimeline extends HTMLElement {
   previous: Boolean;
   next: Boolean;
   skip: number;
-  totalTime: number;
   private editing: boolean = false;
 
-  constructor(axes, totalTime) {
+  constructor(axes, totalTime, debug = true) {
     // Always call super first in constructor
     super();
     // write element functionality in here
     this.attachShadow({ mode: "open" }); // sets and returns 'this.shadowRoot'
 
     this.axes = axes;
+    this.totalTime = totalTime;
+    this.debug = debug;
     this.shadowRoot.innerHTML = this.template(axes, totalTime);
     this.$pane = this.shadowRoot.querySelector("#pane");
     this.$timeline = this.shadowRoot.querySelector("#timeline");
@@ -55,14 +59,18 @@ export class TaxisTimeline extends HTMLElement {
     });
     for (let i = 0, len = this.$bars.length; i < len; i++) {
       const bar = this.$bars[i];
-      const barBegin = this.$barsBegin[i];
-      const barEnd = this.$barsEnd[i];
       bar.addEventListener("click", (e) => {
         const target = e.currentTarget as HTMLElement;
         const idx = Number(target.getAttribute("idx"));
         this.skip = idx;
       });
 
+      if (!this.debug) {
+        continue;
+      }
+
+      const barBegin = this.$barsBegin[i];
+      const barEnd = this.$barsEnd[i];
       // TODO: Refactor
       barBegin.addEventListener("input", (e) => {
         const time = Number(barBegin.value);
@@ -181,7 +189,7 @@ export class TaxisTimeline extends HTMLElement {
 
     this.__updateProgressPosition(time);
     this.__updateBar(totalTime);
-    this.__updateBarRange(totalTime);
+    this.debug && this.__updateBarRange(totalTime);
     this.__updateScale(totalTime);
   }
 
@@ -192,11 +200,22 @@ export class TaxisTimeline extends HTMLElement {
     for (let i = 0; i < axes.length; i++) {
       const axis = axes[i];
       labels += `<div class="row" id="row-${i}"><div class="label" idx="${i}">${axis.key}</div></div>`;
-      bars += `<div class="row">
-  <div class="bar" idx="${i}"></div>
-  <input class="begin" type="range" min="0" max="0" step="10" value="${axis.beginAt}">
-  <input class="end" type="range" min="0" max="0" step="10" value="${axis.endAt}">
-</div>`;
+
+      let barController = '';
+      if (this.debug) {
+        barController = `
+          <input class="begin" type="range" min="0" max="0" step="10" value="${axis.beginAt}">
+          <input class="end" type="range" min="0" max="0" step="10" value="${axis.endAt}">
+        `;
+      }
+      bars += `
+        <div class="row">
+          <div class="bar bar--${this.debug ? 'debug' : 'default' }" idx="${i}"></div>
+          ${barController}
+        </div>`;
+      if (this.debug) {
+
+      }
     }
 
     for (let i = 0, sec = Math.floor(total / 1000); i < sec; i++) {
@@ -305,7 +324,7 @@ export class TaxisTimeline extends HTMLElement {
           cursor: pointer;
           position: relative;
         }
-        .bar::before {
+        .bar.bar--debug::before {
           content: "";
           display: block;
           width: 6px;
@@ -317,7 +336,7 @@ export class TaxisTimeline extends HTMLElement {
           border-radius: 2px;
           background-color: darkgray;
         }
-        .bar::after {
+        .bar.bar--debug::after {
           content: "";
           display: block;
           width: 6px;
