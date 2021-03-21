@@ -1,6 +1,8 @@
 # T:axis
 
-Make it easier to manage animations in requestAnimationFrame
+[T:axis](https://t4y3.github.io/taxis/) - Make it easier to manage animations in requestAnimationFrame
+
+## Document
 
 ### Constructor
 
@@ -81,7 +83,7 @@ taxis.begin();
 
 ### ticker
 
-ticket は requestAnimationFrame 内で呼ばれます。
+Called in the requestAnimationFrame.
 
 #### Syntax
 
