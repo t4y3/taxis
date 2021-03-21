@@ -1,6 +1,6 @@
 {
   "name": "taxis",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "T:axis - Make it easier to manage animations in requestAnimationFrame",
   "main": "lib/taxis.js",
   "module": "lib/taxis.esm.js",
