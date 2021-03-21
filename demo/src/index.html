@@ -1,0 +1,142 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>T:axis - Make it easier to manage animations in requestAnimationFrame</title>
+    <meta name="description" content="Make it easier to manage animations in requestAnimationFrame">
+    <link rel="stylesheet" href="./index.css" />
+    <script src="./index.ts"></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      taxis-demo {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto 60px;
+      }
+      taxis-demo:last-child {
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen bg-gray-100">
+      <div class="py-10">
+        <div
+          class="max-w-3xl mx-auto px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8"
+        >
+          <div class="lg:block lg:col-span-3 xl:col-span-2">
+            <nav
+              aria-label="Sidebar"
+              class="sticky top-4 divide-y divide-gray-300"
+            >
+              <div class="pb-8 space-y-1">
+                <div
+                  class="text-gray-900 group flex items-center px-3 py-2 text-lg font-medium"
+                >
+                  T:axis
+                </div>
+                <a
+                  href="https://github.com/t4y3/taxis"
+                  class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                  aria-current="page"
+                >
+                  <!-- Heroicon name: outline/home -->
+                  <svg
+                    class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                    ></path>
+                  </svg>
+                  <span class="truncate"> Source Code </span>
+                </a>
+
+                <a
+                  href="https://www.npmjs.com/package/taxis"
+                  class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                  aria-current="false"
+                >
+                  <svg
+                    class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    ></path>
+                  </svg>
+                  <span class="truncate"> npm package </span>
+                </a>
+
+                <a
+                  href="https://github.com/t4y3/taxis#taxis"
+                  class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                  aria-current="false"
+                >
+                  <!-- Heroicon name: outline/user-group -->
+                  <svg
+                    class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    ></path>
+                  </svg>
+                  <span class="truncate"> Document </span>
+                </a>
+              </div>
+              <div class="pt-10">
+                <p
+                  class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                  id="communities-headline"
+                >
+                  Usage examples
+                </p>
+                <div
+                  class="mt-3 space-y-2"
+                  aria-labelledby="communities-headline"
+                >
+                  <a
+                    href="https://t4y3.github.io/karakuri/color-reduction/"
+                    class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50"
+                  >
+                    <span class="truncate"> Timeline Enabled </span>
+                  </a>
+
+                </div>
+              </div>
+            </nav>
+          </div>
+          <main class="lg:col-span-9 xl:col-span-10">
+            <div class="timeline"></div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
