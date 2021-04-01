@@ -29,7 +29,8 @@
     "build:esm": "esbuild src/taxis.ts --bundle --minify --sourcemap --outfile=lib/taxis.esm.js --format=esm",
     "build:iife": "esbuild src/taxis.ts --bundle --minify --sourcemap --outfile=lib/taxis.js --format=iife",
     "dev": "esbuild src/taxis.ts --bundle --minify --sourcemap --outfile=lib/taxis.esm.js --format=esm --watch",
-    "types": "tsc -d --emitDeclarationOnly"
+    "types": "tsc -d --emitDeclarationOnly",
+    "semantic-release": "semantic-release"
   },
   "lint-staged": {
     "src/**/*.{js,ts}": [
@@ -46,7 +47,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/t4y3/taxis.git"
+    "url": "https://github.com/t4y3/taxis.git"
   },
   "keywords": [
     "requestAnimationFrame"
