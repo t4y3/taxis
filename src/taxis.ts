@@ -1,4 +1,4 @@
-import { TaxisTimeline } from "./timeline";
+import { TaxisTimeline } from './timeline';
 
 type Axis = {
   key: string;
@@ -17,14 +17,14 @@ type Axes = Map<string, Axis>;
 type TimelineOption = {
   container: HTMLElement;
   debug: boolean;
-}
+};
 
 type Option = {
   timeline?: TimelineOption;
 };
 
 const initialAxis: Axis = {
-  key: "",
+  key: '',
   beginAt: 0,
   endAt: 0,
   duration: 0,
@@ -35,13 +35,13 @@ const initialAxis: Axis = {
   pass: false,
 };
 
-const Events = {
-  ENTER: "enter",
-  LEAVE: "leave",
-  PASS: "pass",
-} as const;
+// const Events = {
+//   ENTER: 'enter',
+//   LEAVE: 'leave',
+//   PASS: 'pass',
+// } as const;
 
-type EventName = typeof Events[keyof typeof Events];
+// type EventName = typeof Events[keyof typeof Events];
 
 export class Taxis {
   private axes: Axis[];
@@ -50,18 +50,18 @@ export class Taxis {
   private tickerFn: (delta: number, axis: Axes) => void;
   private timeline: TaxisTimeline;
 
-  get totalTime() {
+  get totalTime(): number {
     if (!this.axes.length) {
       return 0;
     }
     return Math.max(...this.axes.map((item) => item.endAt));
   }
 
-  get totalTimeForTimeline() {
+  get totalTimeForTimeline(): number {
     return this.totalTime + 500;
   }
 
-  get everyPassed() {
+  get everyPassed(): boolean {
     return this.axes.every((item) => item.pass);
   }
 
@@ -69,15 +69,15 @@ export class Taxis {
     this.axes = [];
   }
 
-  restart() {
+  restart(): void {
     this.beginAt = Date.now();
   }
 
-  getAxis({ key }) {
+  getAxis({ key }): Axis {
     return this.axes.find((item) => item.key === key);
   }
 
-  getAxes() {
+  getAxes(): Axis[] {
     return this.axes;
   }
 
@@ -90,12 +90,7 @@ export class Taxis {
   // passed(key: string) {
   // }
 
-  add(
-    key: string,
-    duration: number,
-    delay: number = 0,
-    position?: number | string
-  ) {
+  add(key: string, duration: number, delay = 0, position?: number | string) {
     let beginAt = this.totalTime + delay;
     if (position !== undefined) {
       if (Number.isFinite(position)) {
@@ -106,7 +101,7 @@ export class Taxis {
       }
     } else {
       const last = this.axes[this.axes.length - 1];
-      position = !!last ? last.key : 0;
+      position = last ? last.key : 0;
     }
 
     this.axes.push({
@@ -125,7 +120,11 @@ export class Taxis {
   begin() {
     // TODO: delete
     if (this.option.timeline) {
-      this.timeline = new TaxisTimeline(this.axes, this.totalTimeForTimeline, this.option.timeline.debug);
+      this.timeline = new TaxisTimeline(
+        this.axes,
+        this.totalTimeForTimeline,
+        this.option.timeline.debug
+      );
       this.option.timeline.container.appendChild(this.timeline);
     }
 
@@ -195,7 +194,8 @@ export class Taxis {
     const newAxes = [];
     for (let i = 0; i < this.axes.length; i++) {
       const axis = this.axes[i];
-      let { key, duration, position, delay } = axis;
+      const { key, duration, delay } = axis;
+      let { position } = axis;
       const totalTime = Math.max(...newAxes.map((item) => item.endAt));
 
       let beginAt = totalTime + delay;
@@ -228,8 +228,9 @@ export class Taxis {
 
     for (let i = 0; i < axes.length; i++) {
       const axis = axes[i];
-      let { key, duration, position, delay } = axis;
-      let totalTime = Math.max(...newAxes.map((item) => item.endAt));
+      const { key, duration, delay } = axis;
+      let { position } = axis;
+      const totalTime = Math.max(...newAxes.map((item) => item.endAt));
       let beginAt = totalTime + delay;
 
       if (position !== undefined) {

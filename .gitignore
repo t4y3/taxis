@@ -105,3 +105,5 @@ dist
 
 demo/.cache
 demo/.parcel-cache
+
+lib

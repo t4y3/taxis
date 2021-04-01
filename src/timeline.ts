@@ -15,53 +15,53 @@ export class TaxisTimeline extends HTMLElement {
   $previous: HTMLElement;
   $playPause: HTMLElement;
   $next: HTMLElement;
-  playing: Boolean;
-  previous: Boolean;
-  next: Boolean;
+  playing: boolean;
+  previous: boolean;
+  next: boolean;
   skip: number;
-  private editing: boolean = false;
+  private editing = false;
 
   constructor(axes, totalTime, debug = true) {
     // Always call super first in constructor
     super();
     // write element functionality in here
-    this.attachShadow({ mode: "open" }); // sets and returns 'this.shadowRoot'
+    this.attachShadow({ mode: 'open' }); // sets and returns 'this.shadowRoot'
 
     this.axes = axes;
     this.totalTime = totalTime;
     this.debug = debug;
     this.shadowRoot.innerHTML = this.template(axes, totalTime);
-    this.$pane = this.shadowRoot.querySelector("#pane");
-    this.$timeline = this.shadowRoot.querySelector("#timeline");
-    this.$current = this.shadowRoot.querySelector("#current");
-    this.$progress = this.shadowRoot.querySelector("#progress");
-    this.$labels = this.shadowRoot.querySelectorAll(".label");
-    this.$bars = this.shadowRoot.querySelectorAll(".bar");
-    this.$barsBegin = this.shadowRoot.querySelectorAll(".begin");
-    this.$barsEnd = this.shadowRoot.querySelectorAll(".end");
-    this.$previous = this.shadowRoot.querySelector("#previous");
-    this.$playPause = this.shadowRoot.querySelector("#play-pause");
-    this.$next = this.shadowRoot.querySelector("#next");
+    this.$pane = this.shadowRoot.querySelector('#pane');
+    this.$timeline = this.shadowRoot.querySelector('#timeline');
+    this.$current = this.shadowRoot.querySelector('#current');
+    this.$progress = this.shadowRoot.querySelector('#progress');
+    this.$labels = this.shadowRoot.querySelectorAll('.label');
+    this.$bars = this.shadowRoot.querySelectorAll('.bar');
+    this.$barsBegin = this.shadowRoot.querySelectorAll('.begin');
+    this.$barsEnd = this.shadowRoot.querySelectorAll('.end');
+    this.$previous = this.shadowRoot.querySelector('#previous');
+    this.$playPause = this.shadowRoot.querySelector('#play-pause');
+    this.$next = this.shadowRoot.querySelector('#next');
     this.playing = true;
     this.previous = false;
     this.next = false;
     this.skip = -1;
 
     // event
-    this.$previous.addEventListener("click", (e) => {
+    this.$previous.addEventListener('click', () => {
       this.previous = true;
     });
-    this.$playPause.addEventListener("click", (e) => {
+    this.$playPause.addEventListener('click', () => {
       this.playing = !this.playing;
     });
-    this.$next.addEventListener("click", (e) => {
+    this.$next.addEventListener('click', () => {
       this.next = true;
     });
     for (let i = 0, len = this.$bars.length; i < len; i++) {
       const bar = this.$bars[i];
-      bar.addEventListener("click", (e) => {
+      bar.addEventListener('click', (e) => {
         const target = e.currentTarget as HTMLElement;
-        const idx = Number(target.getAttribute("idx"));
+        const idx = Number(target.getAttribute('idx'));
         this.skip = idx;
       });
 
@@ -72,7 +72,7 @@ export class TaxisTimeline extends HTMLElement {
       const barBegin = this.$barsBegin[i];
       const barEnd = this.$barsEnd[i];
       // TODO: Refactor
-      barBegin.addEventListener("input", (e) => {
+      barBegin.addEventListener('input', (e) => {
         const time = Number(barBegin.value);
         if (Number(this.$barsEnd[i].value) < time) {
           e.preventDefault();
@@ -96,7 +96,7 @@ export class TaxisTimeline extends HTMLElement {
       });
 
       // TODO: Refactor
-      barEnd.addEventListener("input", (e) => {
+      barEnd.addEventListener('input', (e) => {
         const time = Number(barEnd.value);
         if (time < Number(this.$barsBegin[i].value)) {
           e.preventDefault();
@@ -115,29 +115,29 @@ export class TaxisTimeline extends HTMLElement {
       });
     }
     this.$labels.forEach((label) => {
-      label.addEventListener("click", (e) => {
+      label.addEventListener('click', (e) => {
         const target = e.currentTarget as HTMLElement;
-        const idx = Number(target.getAttribute("idx"));
+        const idx = Number(target.getAttribute('idx'));
         this.skip = idx;
       });
     });
-    this.$current.addEventListener("input", (e) => {
+    this.$current.addEventListener('input', (e) => {
       this.editing = true;
       const time = Number(this.$current.value);
       this.__updateProgressPosition(time);
       this.__updateBar(this.totalTime);
     });
 
-    this.$current.addEventListener("change", (e) => {
+    this.$current.addEventListener('change', (e) => {
       this.editing = false;
     });
   }
 
-  attributeChangedCallback() {}
-
-  connectedCallback() {}
-
-  disconnectedCallback() {}
+  // attributeChangedCallback() {}
+  //
+  // connectedCallback() {}
+  //
+  // disconnectedCallback() {}
 
   getAxes() {
     return this.axes;
@@ -184,7 +184,7 @@ export class TaxisTimeline extends HTMLElement {
     this.axes = axes;
     this.totalTime = totalTime;
 
-    this.$current.setAttribute("max", totalTime);
+    this.$current.setAttribute('max', totalTime);
     this.$current.value = time;
 
     this.__updateProgressPosition(time);
@@ -194,9 +194,9 @@ export class TaxisTimeline extends HTMLElement {
   }
 
   template(axes, total) {
-    let labels = "";
-    let bars = "";
-    let scaleLabels = "";
+    let labels = '';
+    let bars = '';
+    let scaleLabels = '';
     for (let i = 0; i < axes.length; i++) {
       const axis = axes[i];
       labels += `<div class="row" id="row-${i}"><div class="label" idx="${i}">${axis.key}</div></div>`;
@@ -210,12 +210,11 @@ export class TaxisTimeline extends HTMLElement {
       }
       bars += `
         <div class="row">
-          <div class="bar bar--${this.debug ? 'debug' : 'default' }" idx="${i}"></div>
+          <div class="bar bar--${
+            this.debug ? 'debug' : 'default'
+          }" idx="${i}"></div>
           ${barController}
         </div>`;
-      if (this.debug) {
-
-      }
     }
 
     for (let i = 0, sec = Math.floor(total / 1000); i < sec; i++) {
@@ -548,24 +547,24 @@ export class TaxisTimeline extends HTMLElement {
   }
 
   __updateScale(total) {
-    const test = this.shadowRoot.querySelector(".test");
+    const test = this.shadowRoot.querySelector('.test');
     test && test.remove();
-    this.shadowRoot.querySelectorAll(".scale-label").forEach((elm) => {
+    this.shadowRoot.querySelectorAll('.scale-label').forEach((elm) => {
       elm.remove();
     });
-    const scale = this.shadowRoot.querySelector<HTMLElement>(".scale");
-    scale.style.setProperty("--total", total);
+    const scale = this.shadowRoot.querySelector<HTMLElement>('.scale');
+    scale.style.setProperty('--total', total);
 
-    let scaleLabels = "";
+    let scaleLabels = '';
     for (let i = 0, sec = Math.floor(total / 1000); i < sec; i++) {
       scaleLabels += `<div class="scale-label" style="--sec: ${i + 1}">${
         i + 1
       }s</div>`;
     }
-    const fragment = document.createElement("div");
-    fragment.className = "test";
+    const fragment = document.createElement('div');
+    fragment.className = 'test';
     fragment.innerHTML = scaleLabels;
-    this.shadowRoot.querySelector(".scale").appendChild(fragment);
+    this.shadowRoot.querySelector('.scale').appendChild(fragment);
   }
 
   __updateProgressPosition(time) {
@@ -577,9 +576,9 @@ export class TaxisTimeline extends HTMLElement {
   __updateBarRange(totalTime) {
     for (let i = 0; i < this.$bars.length; i++) {
       const axis = this.axes[i];
-      this.$barsBegin[i].setAttribute("max", totalTime);
+      this.$barsBegin[i].setAttribute('max', totalTime);
       this.$barsBegin[i].value = axis.beginAt;
-      this.$barsEnd[i].setAttribute("max", totalTime);
+      this.$barsEnd[i].setAttribute('max', totalTime);
       this.$barsEnd[i].value = axis.endAt;
     }
   }
@@ -597,12 +596,12 @@ export class TaxisTimeline extends HTMLElement {
       this.$bars[i].style.transform = `translateX(${barBegin}px)`;
       this.$bars[i].style.width = `${barWidth}px`;
       if (0 < axis.progress && !axis.pass) {
-        this.$bars[i].classList.add("bar--active");
+        this.$bars[i].classList.add('bar--active');
       } else {
-        this.$bars[i].classList.remove("bar--active");
+        this.$bars[i].classList.remove('bar--active');
       }
     }
   }
 }
 
-window.customElements.define("taxis-timeline", TaxisTimeline);
+window.customElements.define('taxis-timeline', TaxisTimeline);
